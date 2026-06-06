@@ -16,6 +16,9 @@ const EditPost = () => {
   const [images, setImages] = useState([]);
   const [files, setFiles] = useState([]);
   
+  const [existingImages, setExistingImages] = useState([]);
+  const [existingFiles, setExistingFiles] = useState([]);
+  
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -32,6 +35,8 @@ const EditPost = () => {
         setTitle(res.data.title);
         setContent(res.data.content);
         setStatus(res.data.status);
+        setExistingImages(res.data.images || []);
+        setExistingFiles(res.data.files || []);
       } catch (err) {
         console.error(err);
         setError('Failed to load post.');
@@ -63,6 +68,26 @@ const EditPost = () => {
 
   const removeFile = (index) => {
     setFiles(files.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveExistingImage = async (imageId) => {
+    try {
+      await api.delete(`posts/${slug}/remove-image/${imageId}/`);
+      setExistingImages(existingImages.filter((img) => img.id !== imageId));
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete image.');
+    }
+  };
+
+  const handleRemoveExistingFile = async (fileId) => {
+    try {
+      await api.delete(`posts/${slug}/remove-file/${fileId}/`);
+      setExistingFiles(existingFiles.filter((f) => f.id !== fileId));
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete file.');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -138,7 +163,24 @@ const EditPost = () => {
           <div className="flex flex-col md:flex-row md:space-x-md space-y-md md:space-y-0">
             {/* Images Upload */}
             <div className="flex-1 border border-hairline p-md rounded-md bg-canvas">
-              <p className="caption text-ink opacity-60 mb-sm">Note: Uploading new images will append them to the post.</p>
+              
+              {existingImages.length > 0 && (
+                <div className="mb-md">
+                  <p className="body-sm font-medium mb-xs text-ink">Current Images</p>
+                  <div className="flex flex-col space-y-xs">
+                    {existingImages.map((img) => (
+                      <div key={img.id} className="flex items-center justify-between bg-surface-soft p-xs rounded-sm border border-hairline-soft">
+                        <span className="caption truncate max-w-[200px] text-ink">{img.image.split('/').pop()}</span>
+                        <button type="button" onClick={() => handleRemoveExistingImage(img.id)} className="text-ink hover:text-accent-magenta" title="Delete from server">
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <p className="caption text-ink opacity-60 mb-sm">Upload additional images.</p>
               <label className="flex items-center space-x-xs body-sm font-medium mb-sm text-ink cursor-pointer hover:text-primary">
                 <ImageIcon size={20} />
                 <span>Append Images</span>
@@ -167,7 +209,24 @@ const EditPost = () => {
 
             {/* Files Upload */}
             <div className="flex-1 border border-hairline p-md rounded-md bg-canvas">
-              <p className="caption text-ink opacity-60 mb-sm">Note: Uploading new files will append them to the post.</p>
+              
+              {existingFiles.length > 0 && (
+                <div className="mb-md">
+                  <p className="body-sm font-medium mb-xs text-ink">Current Files</p>
+                  <div className="flex flex-col space-y-xs">
+                    {existingFiles.map((f) => (
+                      <div key={f.id} className="flex items-center justify-between bg-surface-soft p-xs rounded-sm border border-hairline-soft">
+                        <span className="caption truncate max-w-[200px] text-ink">{f.file_name}</span>
+                        <button type="button" onClick={() => handleRemoveExistingFile(f.id)} className="text-ink hover:text-accent-magenta" title="Delete from server">
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <p className="caption text-ink opacity-60 mb-sm">Upload additional files (PDF, DOC, ZIP, etc).</p>
               <label className="flex items-center space-x-xs body-sm font-medium mb-sm text-ink cursor-pointer hover:text-primary">
                 <FileIcon size={20} />
                 <span>Append Files</span>

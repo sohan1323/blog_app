@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 # Create your models here.
 
 class Post(models.Model):
@@ -67,7 +68,7 @@ class PostFile(models.Model):
         on_delete=models.CASCADE,
         related_name='files'
     )
-    file = models.FileField(upload_to='posts/files/')
+    file = models.FileField(upload_to='posts/files/', storage=RawMediaCloudinaryStorage())
     file_name = models.CharField(max_length=255)
     file_size = models.IntegerField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
