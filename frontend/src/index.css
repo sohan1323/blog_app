@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-canvas text-ink font-sans antialiased m-0 p-0;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-primary text-on-primary rounded-pill px-[20px] py-[10px] font-sans font-medium text-[16px] md:text-[20px] leading-[1.4] tracking-[-0.10px] inline-flex items-center justify-center transition-transform active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply bg-canvas text-ink rounded-pill px-[18px] pt-[8px] pb-[10px] font-sans font-medium text-[16px] md:text-[20px] leading-[1.4] tracking-[-0.10px] inline-flex items-center justify-center transition-transform active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  /* Sections */
+  .color-block-lime {
+    @apply w-full rounded-none md:rounded-lg p-lg md:p-xxl my-xl md:my-section max-w-[1280px] mx-auto bg-block-lime text-ink;
+  }
+  .color-block-lilac {
+    @apply w-full rounded-none md:rounded-lg p-lg md:p-xxl my-xl md:my-section max-w-[1280px] mx-auto bg-block-lilac text-ink;
+  }
+  .color-block-cream {
+    @apply w-full rounded-none md:rounded-lg p-lg md:p-xxl my-xl md:my-section max-w-[1280px] mx-auto bg-block-cream text-ink;
+  }
+  .color-block-navy {
+    @apply w-full rounded-none md:rounded-lg p-lg md:p-xxl my-xl md:my-section max-w-[1280px] mx-auto bg-block-navy text-inverse-ink;
+  }
+  
+  /* Typography */
+  .display-xl {
+    @apply text-[48px] md:text-[86px] font-light leading-[1.00] tracking-[-1.72px];
+  }
+  .display-lg {
+    @apply text-[36px] md:text-[64px] font-light leading-[1.10] tracking-[-0.96px];
+  }
+  .headline {
+    @apply text-[22px] md:text-[26px] font-medium leading-[1.35] tracking-[-0.26px];
+  }
+  .subhead {
+    @apply text-[22px] md:text-[26px] font-light leading-[1.35] tracking-[-0.26px];
+  }
+  .body-lg {
+    @apply text-[18px] md:text-[20px] font-light leading-[1.40] tracking-[-0.14px];
+  }
+  .body-text {
+    @apply text-[16px] md:text-[18px] font-light leading-[1.45] tracking-[-0.26px];
+  }
+  .body-sm {
+    @apply text-[14px] md:text-[16px] font-light leading-[1.45] tracking-[-0.14px];
+  }
+  .eyebrow {
+    @apply font-mono text-[14px] md:text-[18px] uppercase tracking-[0.54px] leading-[1.30];
+  }
+  
+  /* Inputs */
+  .text-input {
+    @apply bg-canvas text-ink border border-hairline rounded-md px-[14px] py-[12px] text-[16px] md:text-[18px] font-light leading-[1.45] tracking-[-0.26px] placeholder:text-[16px] md:placeholder:text-[18px] placeholder:font-light placeholder:opacity-60 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary w-full transition-colors;
+  }
+}
